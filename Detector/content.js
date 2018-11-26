@@ -14,6 +14,7 @@ var containsDoubleGuion = document.URL.indexOf("-") > -1;
 var containsTinyUrl = document.URL.indexOf("bit") > -1; //son lo mismo
 var containsBit = document.URL.indexOf("tinyurl") > -1;//son lo mismo
 var containsHttps = document.URL.indexOf("https") > -1;
+var age = 100; //HERE I SHOULD CALL THE API, I DO NOT DO IT BECOUSE I DONT WANT TO WASTE CALLS
 
 
 var bitArroba = 0;
@@ -23,7 +24,8 @@ var bitLength = 0;
 var bitDots = 0;
 var bitTinyUrl = 0;
 var bitHttps = 0;
-
+var bitAge = 0;
+var bitPort = badPort();
 
 //I set the bits
 (containsArroba) ? bitArroba = -1 : bitArroba = 0  ;
@@ -39,6 +41,9 @@ var bitHttps = 0;
 (containsTinyUrl || containsBit) ? bitTinyUrl = -1 : bitTinyUrl = 0;
 
 (!containsHttps) ? bitHttps = -1 : bitHttps = 0;
+
+(age < 365) ? bitAge = -1 : bitAge = 0;
+
 
 
 
@@ -56,16 +61,28 @@ function getDomainAge(){
 	parser = new DOMParser();
 	xmlDoc = parser.parseFromString(result,"text/xml");
 	var age = xmlDoc.getElementsByTagName('estimatedDomainAge');
-	return age[0].childNodes[0].nodeValue
+	return age[0].childNodes[0].nodeValue;
 }
-
 
 IsPhysingWebSite();
 
+function badPort(){
+	var result = -1;
+	var port = location.port;
+	var goodPorts = ["21", "22", "23" ,"80","443","445","1433","1521","3306", "3389"];
+
+	goodPorts.forEach(function(element) {
+	  if(element == port) result = 0;
+	});
+	if(port == "") result = 0;
+
+	alert(result);
+}
+
 function IsPhysingWebSite(){
     if(document.URL == "https://goshipages.com/"){
-    	getDomainAge();
-        alert("a"+ window.location.href+ " "+location.host);       
+    	//getDomainAge();
+        alert("a"+ window.location.href+ " "+location.port);       
     }
 }
 
