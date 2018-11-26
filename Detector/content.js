@@ -56,7 +56,7 @@ function getDomainAge(){
 	parser = new DOMParser();
 	xmlDoc = parser.parseFromString(result,"text/xml");
 	var age = xmlDoc.getElementsByTagName('estimatedDomainAge');
-	alert(age[0].toString());
+	return age[0].childNodes[0].nodeValue
 }
 
 
