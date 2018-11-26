@@ -26,6 +26,7 @@ var bitTinyUrl = 0;
 var bitHttps = 0;
 var bitAge = 0;
 var bitPort = badPort();
+var bitPageRank = 0;
 
 //I set the bits
 (containsArroba) ? bitArroba = -1 : bitArroba = 0  ;
@@ -44,9 +45,27 @@ var bitPort = badPort();
 
 (age < 365) ? bitAge = -1 : bitAge = 0;
 
+(getWebsiteRank() < 2) ? bitPageRank = -1 : bitPageRank = 0;
 
 
+function getWebsiteRank(){
+	var hostname = "www."+(new URL(document.URL)).hostname.toString();
+	var api = 'https://openpagerank.com/api/v1.0/getPageRank?domains[]='+hostname;
+	var key = "c84w084sg0gwk0co48s44wwwgc08ok8888c80kcw";
+	var url = document.URL;
+	var domains = [url];
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.open( "GET", api, false ); // false for synchronous request
+	xmlHttp.setRequestHeader("API-OPR", key);
+    xmlHttp.send( null );
+    var obj = JSON.parse(xmlHttp.responseText);
+    var rank = obj.response[0].page_rank_decimal;
+    alert(rank); 
+    return xmlHttp.responseText;
+}
 
+var x =getWebsiteRank(); 
+alert(x);
 
 function httpGet(theUrl)
 {
@@ -57,7 +76,8 @@ function httpGet(theUrl)
 }
 
 function getDomainAge(){
-	var result = httpGet("https://www.whoisxmlapi.com/whoisserver/WhoisService?apiKey=at_r102dYXjtciL9KgO9Oic7D2aKhQpq&domainName=goshipages.com");
+	var hostname = (new URL(document.URL)).hostname.toString();
+	var result = httpGet("https://www.whoisxmlapi.com/whoisserver/WhoisService?apiKey=at_r102dYXjtciL9KgO9Oic7D2aKhQpq&domainName="+hostname);
 	parser = new DOMParser();
 	xmlDoc = parser.parseFromString(result,"text/xml");
 	var age = xmlDoc.getElementsByTagName('estimatedDomainAge');
@@ -75,8 +95,7 @@ function badPort(){
 	  if(element == port) result = 0;
 	});
 	if(port == "") result = 0;
-
-	alert(result);
+	return result;
 }
 
 function IsPhysingWebSite(){
