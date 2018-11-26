@@ -27,6 +27,7 @@ var bitHttps = 0;
 var bitAge = 0;
 var bitPort = badPort();
 var bitPageRank = 0;
+var bitIpAddress = 0;
 
 //I set the bits
 (containsArroba) ? bitArroba = -1 : bitArroba = 0  ;
@@ -47,9 +48,17 @@ var bitPageRank = 0;
 
 (getWebsiteRank() < 2) ? bitPageRank = -1 : bitPageRank = 0;
 
+(!theresIpAddress()) ? bitIpAddress = -1 : bitIpAddress = 0;
+
+
 
 function getWebsiteRank(){
-	var hostname = "www."+(new URL(document.URL)).hostname.toString();
+	var hostname;
+	if(!(new URL(document.URL)).hostname.toString().includes("www."))
+		hostname = "www."+(new URL(document.URL)).hostname.toString();
+	else
+		hostname = (new URL(document.URL)).hostname.toString();
+
 	var api = 'https://openpagerank.com/api/v1.0/getPageRank?domains[]='+hostname;
 	var key = "c84w084sg0gwk0co48s44wwwgc08ok8888c80kcw";
 	var url = document.URL;
@@ -60,12 +69,9 @@ function getWebsiteRank(){
     xmlHttp.send( null );
     var obj = JSON.parse(xmlHttp.responseText);
     var rank = obj.response[0].page_rank_decimal;
-    alert(rank); 
     return xmlHttp.responseText;
 }
 
-var x =getWebsiteRank(); 
-alert(x);
 
 function httpGet(theUrl)
 {
@@ -124,15 +130,22 @@ function analyseDots()
 }
 
 
+//TODO: fix the regular expression for the hexadecimal ip address.
+function theresIpAddress(){
+	var url = document.URL;
+	var values = url.split("/");
+	var theresIp = false;
+	//0[xX][0-9a-fA-F]+
+	values.forEach(function(element) {
+	  var resultOfdecimalNumbers = element.search("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$");
+	  //Check resultOfHexaDecimalNumbers regular expression, I DID IT BUT BADLY. 
+	  var resultOfHexaDecimalNumbers = element.search("^((0[xX][0-9a-fA-F]+)\.){3}(0[xX][0-9a-fA-F]+)$");
 
-/*function ThereIsIpAddress(ipaddress) 
-{
- if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(myForm.emailAddr.value))
-  {
-    return (true)
-  }
-return (false)
-}*/
+	  if(resultOfdecimalNumbers > -1 || resultOfHexaDecimalNumbers > -1) theresIp = true;
+	});
+	
+	alert(theresIp);
+}
 
 
 /*
