@@ -9,5 +9,9 @@
           ],
           "js": ["content.js"]
         }
-      ]
+      ],
+    "permissions": [
+          "webRequest",
+          "*://*.google.com/"
+        ]
   }

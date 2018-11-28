@@ -13,7 +13,7 @@ var containsDoubleBar = document.URL.indexOf("//") > -1;
 var containsDoubleGuion = document.URL.indexOf("-") > -1;
 var containsTinyUrl = document.URL.indexOf("bit") > -1; //son lo mismo
 var containsBit = document.URL.indexOf("tinyurl") > -1;//son lo mismo
-var containsHttps = document.URL.indexOf("https") > -1;
+var containsHttps = document.URL.indexOf("https://") > -1;
 var age = 100; //HERE I SHOULD CALL THE API, I DO NOT DO IT BECOUSE I DONT WANT TO WASTE CALLS
 
 
@@ -50,6 +50,29 @@ var bitIpAddress = 0;
 
 (!theresIpAddress()) ? bitIpAddress = -1 : bitIpAddress = 0;
 
+getRequestUrl();
+
+function getRequestUrl(){
+    var badUrls = 0;
+    var goodUrls = 0;
+    
+    var name = window.location.hostname;
+    var splitedUrl = name.split(".");
+    var domain =splitedUrl[1] +"."+splitedUrl[2];
+    alert(domain);
+    
+    var callback = function(details){
+        alert(details);
+        if (true){
+                goodUrls++;
+        } else{
+            badUrls++;
+        }
+    };
+    var filter = ["*"];
+    
+    chrome.webRequest.onBeforeRequest.addListener(callback, filter);
+}
 
 
 function getWebsiteRank(){
@@ -133,18 +156,19 @@ function analyseDots()
 //TODO: fix the regular expression for the hexadecimal ip address.
 function theresIpAddress(){
 	var url = document.URL;
-	var values = url.split("/");
+    //var url = 'hello_dumb/0x9B.0xAA.0x56.0xF5/testing.html';
+	//var url = 'thiscase/doesnt/work';
+    var values = url.split("/");
 	var theresIp = false;
 	//0[xX][0-9a-fA-F]+
 	values.forEach(function(element) {
 	  var resultOfdecimalNumbers = element.search("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$");
 	  //Check resultOfHexaDecimalNumbers regular expression, I DID IT BUT BADLY. 
-	  var resultOfHexaDecimalNumbers = element.search("^((0[xX][0-9a-fA-F]+)\.){3}(0[xX][0-9a-fA-F]+)$");
+	  var resultOfHexaDecimalNumbers = element.search("^((0[xX][0-9a-fA-F]{2})\.){3}(0[xX][0-9a-fA-F]{2})$");
 
 	  if(resultOfdecimalNumbers > -1 || resultOfHexaDecimalNumbers > -1) theresIp = true;
 	});
 	
-	alert(theresIp);
 }
 
 
