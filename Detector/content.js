@@ -4,6 +4,10 @@
 //suspicus/phishing : -1
 
 //var containsIpAddress = ThereIsIpAddress("document.URL");
+ 
+console.log(is_url("http://www.example.com"));
+console.log(is_url("https://www.example.com"));
+console.log(is_url("www.example.com"));
 
 
 var url_length = document.URL.length;
@@ -28,6 +32,7 @@ var bitAge = 0;
 var bitPort = badPort();
 var bitPageRank = 0;
 var bitIpAddress = 0;
+var bitAnchor = 0;
 
 //I set the bits
 (containsArroba) ? bitArroba = -1 : bitArroba = 0  ;
@@ -49,6 +54,43 @@ var bitIpAddress = 0;
 (getWebsiteRank() < 2) ? bitPageRank = -1 : bitPageRank = 0;
 
 (!theresIpAddress()) ? bitIpAddress = -1 : bitIpAddress = 0;
+
+
+percentageOfUrl = percentageOfUrlInAnchorTag();
+if(percentageOfUrl < 31)
+	bitAnchor = 1;
+else if(percentageOfUrl >= 31 && percentageOfUrl <=67)
+	bitAnchor = 0;
+else
+	bitAnchor = -1;
+
+
+function percentageOfUrlInAnchorTag(){
+	var a = document.getElementsByTagName('a');
+	var urlCont = 0;
+	var noUrlCont = 0;
+	for (var idx= 0; idx < a.length; ++idx){
+	    if(is_url(a[idx].href))
+	    	urlCont++;
+	    else
+	    	noUrlCont++;
+	}
+	return (urlCont*100) / (noUrlCont+urlCont);	
+
+}
+function is_url(str)
+{
+  regexp =  /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+        if (regexp.test(str))
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+}
+
 
 getRequestUrl();
 
