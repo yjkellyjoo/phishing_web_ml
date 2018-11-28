@@ -64,20 +64,46 @@ else if(percentageOfUrl >= 31 && percentageOfUrl <=67)
 else
 	bitAnchor = -1;
 
-
+alert(percentageOfUrlInAnchorTag());
 function percentageOfUrlInAnchorTag(){
 	var a = document.getElementsByTagName('a');
 	var urlCont = 0;
 	var noUrlCont = 0;
+	var hostName = window.location.hostname;
+
 	for (var idx= 0; idx < a.length; ++idx){
-	    if(is_url(a[idx].href))
-	    	urlCont++;
-	    else
-	    	noUrlCont++;
+	    if(is_url(a[idx].href)){
+	    	if(extractHostname(a[idx].href) != hostName){
+	    		urlCont++;
+	    	}else{
+	    		noUrlCont++;
+	    	}
+	    }
 	}
 	return (urlCont*100) / (noUrlCont+urlCont);	
 
 }
+
+function extractHostname(url) {
+    var hostname;
+    //find & remove protocol (http, ftp, etc.) and get hostname
+
+    if (url.indexOf("//") > -1) {
+        hostname = url.split('/')[2];
+    }
+    else {
+        hostname = url.split('/')[0];
+    }
+
+    //find & remove port number
+    hostname = hostname.split(':')[0];
+    //find & remove "?"
+    hostname = hostname.split('?')[0];
+
+    return hostname;
+}
+
+
 function is_url(str)
 {
   regexp =  /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
