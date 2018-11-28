@@ -25,3 +25,4 @@
 * having_IP_Address
 * having_Sub_Domain
 * Page_Rank
+* URL_of_Anchor 
