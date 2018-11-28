@@ -1,6 +1,6 @@
 # phishing_web_ml
 
-URL_Length
+URL_Length\n
 having_At_Symbol
 DoubleBar (//)
 Dash(-)
