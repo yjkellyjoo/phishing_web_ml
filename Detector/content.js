@@ -64,7 +64,8 @@ else if(percentageOfUrl >= 31 && percentageOfUrl <=67)
 else
 	bitAnchor = -1;
 
-alert(percentageOfUrlInAnchorTag());
+
+
 function percentageOfUrlInAnchorTag(){
 	var a = document.getElementsByTagName('a');
 	var urlCont = 0;
@@ -82,6 +83,34 @@ function percentageOfUrlInAnchorTag(){
 	}
 	return (urlCont*100) / (noUrlCont+urlCont);	
 
+}
+
+alert(faviconFromExternDomain());
+
+function faviconFromExternDomain(){
+	var link = document.getElementsByTagName('Link');
+	//var link = document.querySelector("link[rel='icon']") || document.querySelector("link[rel=shortcut icon']")
+	var hostName = window.location.hostname;
+	var isExternal = 0;
+	var faviconname = "";
+	var count = 0;
+	var rel;
+
+	for (var idx= 0; idx < link.length; ++idx){
+		if(link[idx].getAttribute("shortcut icon") || link[idx].getAttribute("icon"))
+			rel = link[idx].getAttribute("shortcut icon");
+
+	    	if(is_url(link[idx].href)){
+	    		if(extractHostname(link[idx].href) != hostName){
+	    		count++;
+	    		isExternal = 0;
+	    	}else{
+	    		isExternal = 1;
+	    	}
+	    }
+	}
+	return count;
+	//return isExternal;
 }
 
 function extractHostname(url) {
@@ -198,7 +227,7 @@ function badPort(){
 function IsPhysingWebSite(){
     if(document.URL == "https://goshipages.com/"){
     	//getDomainAge();
-        alert("a"+ window.location.href+ " "+location.port);       
+       //alert("a"+ window.location.href+ " "+location.port);       
     }
 }
 
