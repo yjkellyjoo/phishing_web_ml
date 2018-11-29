@@ -6,7 +6,7 @@
 3. **having_Sub_Domain**
 4. web_traffic
 5. **Prefix_Suffix**
-6. Links_in_tags
+6. **Links_in_tags**
 7. Request_URL
 8. Links_pointing_to_page
 9. SFH
