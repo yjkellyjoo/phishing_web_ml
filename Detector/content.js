@@ -33,6 +33,7 @@ var bitPort = badPort();
 var bitPageRank = 0;
 var bitIpAddress = 0;
 var bitAnchor = 0;
+var bitTagUrl = 0;
 
 //I set the bits
 (containsArroba) ? bitArroba = -1 : bitArroba = 0  ;
@@ -64,7 +65,55 @@ else if(percentageOfUrl >= 31 && percentageOfUrl <=67)
 else
 	bitAnchor = -1;
 
-alert(percentageOfUrlInAnchorTag());
+
+var urlsInTags = percentageOfUrlInTags();
+if(urlsInTags < 17)
+	bitTagUrl = 1;
+else if (urlsInTags >=17 && urlsInTags <=81)
+	bitTagUrl = 0;
+else 
+	bitTagUrl = -1;
+
+
+alert(percentageOfUrlInTags());
+
+
+function percentageOfUrlInTags(){
+	var metaTags = document.getElementsByTagName('Meta');
+	var scriptTags = document.getElementsByTagName('Script');
+	var linkTags = document.getElementsByTagName('Link');
+	
+	var urlCont = 0;
+	var noUrlCont = 0;
+	
+	for (var idx= 0; idx < metaTags.length; ++idx){
+	    if(is_url(metaTags[idx].href))
+    		urlCont++;
+	    else
+    		noUrlCont++;
+	    
+	}
+	for (var idx= 0; idx < scriptTags.length; ++idx){
+	    if(is_url(scriptTags[idx].href))
+    		urlCont++;
+    	else
+    		noUrlCont++;
+	    
+	}
+	for (var idx= 0; idx < linkTags.length; ++idx){
+	    if(is_url(linkTags[idx].href))
+    		urlCont++;
+    	else
+    		noUrlCont++;
+	    
+	}
+	
+	return (urlCont*100) / (noUrlCont+urlCont);	
+
+}
+
+
+
 function percentageOfUrlInAnchorTag(){
 	var a = document.getElementsByTagName('a');
 	var urlCont = 0;
