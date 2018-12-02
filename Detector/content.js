@@ -1,3 +1,17 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // content.js
 
 //real: 1
@@ -13,7 +27,6 @@ console.log(is_url("www.example.com"));
 var url_length = document.URL.length;
 
 var containsArroba = document.URL.indexOf("@") > -1;
-var containsDoubleBar = document.URL.split("https://")[1].indexOf("//") > -1;
 var containsDoubleGuion = document.URL.indexOf("-") > -1;
 var containsTinyUrl = document.URL.indexOf("bit") > -1; //son lo mismo
 var containsBit = document.URL.indexOf("tinyurl") > -1;//son lo mismo
@@ -36,7 +49,19 @@ var bitAnchor = 0;
 var bitTagUrl = 0;
 
 
-
+console.log("bitArroba: "+bitArroba);
+console.log("bitDouberBar: "+bitDouberBar);
+console.log("bitDoubleGuion: "+bitDoubleGuion);
+console.log("bitLength: "+bitLength);
+console.log("bitDots: "+bitDots);
+console.log("bitTinyUrl: "+bitTinyUrl);
+console.log("bitHttps: "+bitHttps);
+console.log("bitAge: "+bitAge);
+console.log("bitPort: "+bitPort);
+console.log("bitPageRank: "+bitPageRank);
+console.log("bitIpAddress: "+bitIpAddress);
+console.log("bitAnchor: "+bitAnchor);
+console.log("bitTagUrl: "+bitTagUrl);
 
 //I set the bits
 (containsArroba) ? bitArroba = -1 : bitArroba = 1  ;
@@ -56,7 +81,6 @@ else
 //return a value >=2 if is physhing
 //return a value = 1 if is suspicius
 //return a value < 1 if  is authentic 
-<<<<<<< HEAD
 
 amountOfDots = analyseDots()
 if(amountOfDots >= 2)
@@ -74,34 +98,8 @@ else
 
 (getWebsiteRank() < 2) ? bitPageRank = -1 : bitPageRank = 1;
 
-=======
-
-amountOfDots = analyseDots()
-if(amountOfDots >= 2)
-	bitDots = -1;
-else if(amountOfDots = 1)
-	bitDots = 0;
-else
-	bitDots = 1;
-
-(containsTinyUrl || containsBit) ? bitTinyUrl = -1 : bitTinyUrl = 1;
-
-(!containsHttps) ? bitHttps = -1 : bitHttps = 1;
-
-(age < 365) ? bitAge = -1 : bitAge = 1;
-
-(getWebsiteRank() < 2) ? bitPageRank = -1 : bitPageRank = 1;
-
->>>>>>> 7c7b670190e37c143e925affe649063be089aac9
 (!theresIpAddress()) ? bitIpAddress = -1 : bitIpAddress = 1;
 
-
-if(document.URL.indexOf("https://")> -1)
-	bitDouberBar = 1;
-else if (document.URL.indexOf("//")> -1)
-	bitDouberBar = -1;
-else 
-	bitDouberBar = 1;
 
 percentageOfUrl = percentageOfUrlInAnchorTag();
 if(percentageOfUrl < 31)
@@ -121,6 +119,15 @@ else
 	bitTagUrl = -1;
 
 
+
+if(document.URL.indexOf("https://")> -1)
+	bitDouberBar = 1;
+else if (document.URL.indexOf("//")> -1)
+	bitDouberBar = -1;
+else 
+	bitDouberBar = 1;
+
+
 var json_data = {
 	"having_IP_Address":bitIpAddress, 
 	"URL_Length":url_length, 
@@ -135,24 +142,6 @@ var json_data = {
 	"Page_Rank":bitPageRank
 }
 
-<<<<<<< HEAD
-console.log("bitArroba : "+bitArroba);
-console.log("bitDouberBar : "+bitDouberBar);
-console.log("bitDoubleGuion : "+bitDoubleGuion);
-console.log("bitLength : "+bitLength);
-console.log("bitDots : "+bitDots);
-console.log("bitTinyUrl : "+bitTinyUrl);
-console.log("bitHttps : "+bitHttps);
-console.log("bitAge : "+bitAge);
-console.log("bitPort : "+bitPort);
-console.log("bitPageRank : "+bitPageRank);
-console.log("bitIpAddress : "+bitIpAddress);
-console.log("bitAnchor : "+bitAnchor);
-console.log("bitTagUrl : "+bitTagUrl);
-
-
-
-
 
 
 post_json();
@@ -168,23 +157,6 @@ function post_json(){
         if (xhr.readyState == XMLHttpRequest.DONE) {
             var result = xhr.responseText;
 
-=======
-
-
-post_json();
-
-
-function post_json(){
-	xhr = new XMLHttpRequest();
-	const url = 'http://localhost:5000/postjson';
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json");
-
-	xhr.onreadystatechange = function () {
-        if (xhr.readyState == XMLHttpRequest.DONE) {
-            var result = xhr.responseText;
-
->>>>>>> 7c7b670190e37c143e925affe649063be089aac9
             if(result != 1){
             	alert("Might be a phishing website!!");
             }
@@ -285,7 +257,6 @@ function is_url(str)
 
 /*
 getRequestUrl();
-
 function getRequestUrl(){
     var badUrls = 0;
     var goodUrls = 0;
@@ -390,5 +361,3 @@ function theresIpAddress(){
 	});
 	
 }
-
-
