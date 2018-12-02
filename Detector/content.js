@@ -133,6 +133,33 @@ function percentageOfUrlInAnchorTag(){
 
 }
 
+/*faviconFromExternDomain();
+
+function faviconFromExternDomain(){
+	var l = document.getElementsByTagName('link');
+	var hostName = window.location.hostname;
+	var isExternal = 0;
+	for(var i = 0; i < l.length; ++i){
+
+		//Need to sheck if they are using icon or shortcut icon for the favicon. 
+		//Then check if it is from a different domain
+		//if(((l[i].rel) == "icon") || (l[i].rel) == "shortcut icon"){
+		if( l[i].type == "image/png" ){
+		if(extractHostname(l[i].href) != hostName){
+			alert(l[i].href);
+			isExternal = 1;
+		}
+		else{
+			isExternal = 0;
+		}
+	}
+} 
+	//}
+	return isExternal;
+}*/
+
+alert("Hola");
+
 function extractHostname(url) {
     var hostname;
     //find & remove protocol (http, ftp, etc.) and get hostname
@@ -247,7 +274,7 @@ function badPort(){
 function IsPhysingWebSite(){
     if(document.URL == "https://goshipages.com/"){
     	//getDomainAge();
-        alert("a"+ window.location.href+ " "+location.port);       
+       //alert("a"+ window.location.href+ " "+location.port);       
     }
 }
 

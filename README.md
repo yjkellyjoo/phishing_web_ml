@@ -2,11 +2,11 @@
 
 ## Features by Importance
 1. SSLfinal_State
-2. URL_of_Anchor
+2. **URL_of_Anchor**
 3. **having_Sub_Domain**
 4. web_traffic
 5. **Prefix_Suffix**
-6. Links_in_tags
+6. **Links_in_tags**
 7. Request_URL
 8. Links_pointing_to_page
 9. SFH
