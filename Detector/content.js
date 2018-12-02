@@ -56,6 +56,7 @@ else
 //return a value >=2 if is physhing
 //return a value = 1 if is suspicius
 //return a value < 1 if  is authentic 
+<<<<<<< HEAD
 
 amountOfDots = analyseDots()
 if(amountOfDots >= 2)
@@ -73,6 +74,25 @@ else
 
 (getWebsiteRank() < 2) ? bitPageRank = -1 : bitPageRank = 1;
 
+=======
+
+amountOfDots = analyseDots()
+if(amountOfDots >= 2)
+	bitDots = -1;
+else if(amountOfDots = 1)
+	bitDots = 0;
+else
+	bitDots = 1;
+
+(containsTinyUrl || containsBit) ? bitTinyUrl = -1 : bitTinyUrl = 1;
+
+(!containsHttps) ? bitHttps = -1 : bitHttps = 1;
+
+(age < 365) ? bitAge = -1 : bitAge = 1;
+
+(getWebsiteRank() < 2) ? bitPageRank = -1 : bitPageRank = 1;
+
+>>>>>>> 7c7b670190e37c143e925affe649063be089aac9
 (!theresIpAddress()) ? bitIpAddress = -1 : bitIpAddress = 1;
 
 
@@ -115,6 +135,7 @@ var json_data = {
 	"Page_Rank":bitPageRank
 }
 
+<<<<<<< HEAD
 console.log("bitArroba : "+bitArroba);
 console.log("bitDouberBar : "+bitDouberBar);
 console.log("bitDoubleGuion : "+bitDoubleGuion);
@@ -147,6 +168,23 @@ function post_json(){
         if (xhr.readyState == XMLHttpRequest.DONE) {
             var result = xhr.responseText;
 
+=======
+
+
+post_json();
+
+
+function post_json(){
+	xhr = new XMLHttpRequest();
+	const url = 'http://localhost:5000/postjson';
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json");
+
+	xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            var result = xhr.responseText;
+
+>>>>>>> 7c7b670190e37c143e925affe649063be089aac9
             if(result != 1){
             	alert("Might be a phishing website!!");
             }
