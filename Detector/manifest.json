@@ -1,6 +1,6 @@
 {
     "manifest_version": 2,
-    "name": "My Cool Extension",
+    "name": "TBA Phishing Detector",
     "version": "0.1",
     "content_scripts": [
         {
@@ -13,5 +13,7 @@
     "permissions": [
           "webRequest",
           "*://*.google.com/"
-        ]
+        ],
+		
+	"icons": {"48": "BearIcon.png"}
   }
