@@ -85,33 +85,31 @@ function percentageOfUrlInAnchorTag(){
 
 }
 
-alert(faviconFromExternDomain());
+/*faviconFromExternDomain();
 
 function faviconFromExternDomain(){
-	var link = document.getElementsByTagName('Link');
-	//var link = document.querySelector("link[rel='icon']") || document.querySelector("link[rel=shortcut icon']")
+	var l = document.getElementsByTagName('link');
 	var hostName = window.location.hostname;
 	var isExternal = 0;
-	var faviconname = "";
-	var count = 0;
-	var rel;
+	for(var i = 0; i < l.length; ++i){
 
-	for (var idx= 0; idx < link.length; ++idx){
-		if(link[idx].getAttribute("shortcut icon") || link[idx].getAttribute("icon"))
-			rel = link[idx].getAttribute("shortcut icon");
-
-	    	if(is_url(link[idx].href)){
-	    		if(extractHostname(link[idx].href) != hostName){
-	    		count++;
-	    		isExternal = 0;
-	    	}else{
-	    		isExternal = 1;
-	    	}
-	    }
+		//Need to sheck if they are using icon or shortcut icon for the favicon. 
+		//Then check if it is from a different domain
+		//if(((l[i].rel) == "icon") || (l[i].rel) == "shortcut icon"){
+		if( l[i].type == "image/png" ){
+		if(extractHostname(l[i].href) != hostName){
+			alert(l[i].href);
+			isExternal = 1;
+		}
+		else{
+			isExternal = 0;
+		}
 	}
-	return count;
-	//return isExternal;
-}
+} 
+	//}
+	return isExternal;
+}*/
+
 
 function extractHostname(url) {
     var hostname;
