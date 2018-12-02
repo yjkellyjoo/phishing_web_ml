@@ -13,12 +13,12 @@ console.log(is_url("www.example.com"));
 var url_length = document.URL.length;
 
 var containsArroba = document.URL.indexOf("@") > -1;
-var containsDoubleBar = document.URL.indexOf("//") > -1;
+var containsDoubleBar = document.URL.split("https://")[1].indexOf("//") > -1;
 var containsDoubleGuion = document.URL.indexOf("-") > -1;
 var containsTinyUrl = document.URL.indexOf("bit") > -1; //son lo mismo
 var containsBit = document.URL.indexOf("tinyurl") > -1;//son lo mismo
 var containsHttps = document.URL.indexOf("https://") > -1;
-var age = 100; //HERE I SHOULD CALL THE API, I DO NOT DO IT BECOUSE I DONT WANT TO WASTE CALLS
+var age = getDomainAge(); 
 
 
 var bitArroba = 0;
@@ -35,27 +35,53 @@ var bitIpAddress = 0;
 var bitAnchor = 0;
 var bitTagUrl = 0;
 
+
+
+
 //I set the bits
-(containsArroba) ? bitArroba = -1 : bitArroba = 0  ;
+(containsArroba) ? bitArroba = -1 : bitArroba = 1  ;
 
-(containsDoubleBar) ? bitDouberBar = -1 : bitDouberBar = 0 ;
+(containsDoubleBar) ? bitDouberBar = -1 : bitDouberBar = 1 ;
 
-(containsDoubleGuion) ? bitDoubleGuion = -1 :  bitDoubleGuion = 0;
+(containsDoubleGuion) ? bitDoubleGuion = -1 :  bitDoubleGuion = 1;
 
-(url_length >= 54) ? bitLength = -1 : bitLength = 0;
+if(url_length >= 54 && url_length <= 75)
+	bitLength = 0;
+else if(url_length < 54)
+	bitLength = 1;
+else
+	bitLength = -1;
 
-(analyseDots() > 0) ? bitDots = -1 : bitDots = 0;
+//(analyseDots() > 0) ? bitDots = -1 : bitDots = 1;
+//return a value >=2 if is physhing
+//return a value = 1 if is suspicius
+//return a value < 1 if  is authentic 
 
-(containsTinyUrl || containsBit) ? bitTinyUrl = -1 : bitTinyUrl = 0;
+amountOfDots = analyseDots()
+if(amountOfDots >= 2)
+	bitDots = -1;
+else if(amountOfDots = 1)
+	bitDots = 0;
+else
+	bitDots = 1;
 
-(!containsHttps) ? bitHttps = -1 : bitHttps = 0;
+(containsTinyUrl || containsBit) ? bitTinyUrl = -1 : bitTinyUrl = 1;
 
-(age < 365) ? bitAge = -1 : bitAge = 0;
+(!containsHttps) ? bitHttps = -1 : bitHttps = 1;
 
-(getWebsiteRank() < 2) ? bitPageRank = -1 : bitPageRank = 0;
+(age < 365) ? bitAge = -1 : bitAge = 1;
 
-(!theresIpAddress()) ? bitIpAddress = -1 : bitIpAddress = 0;
+(getWebsiteRank() < 2) ? bitPageRank = -1 : bitPageRank = 1;
 
+(!theresIpAddress()) ? bitIpAddress = -1 : bitIpAddress = 1;
+
+
+if(document.URL.indexOf("https://")> -1)
+	bitDouberBar = 1;
+else if (document.URL.indexOf("//")> -1)
+	bitDouberBar = -1;
+else 
+	bitDouberBar = 1;
 
 percentageOfUrl = percentageOfUrlInAnchorTag();
 if(percentageOfUrl < 31)
@@ -75,8 +101,60 @@ else
 	bitTagUrl = -1;
 
 
-alert(percentageOfUrlInTags());
+var json_data = {
+	"having_IP_Address":bitIpAddress, 
+	"URL_Length":url_length, 
+	"having_At_Symbol":bitArroba, 
+	"Shortining_Service":bitTinyUrl,
+	"double_slash_redirecting":bitDouberBar, 
+	"Prefix_Suffix":bitDoubleGuion, 
+	"having_Sub_Domain":bitDots, 
+	"HTTPS_token":bitHttps, 
+	"URL_of_Anchor":bitAnchor, 
+	"age_of_domain":bitAge, 
+	"Page_Rank":bitPageRank
+}
 
+console.log("bitArroba : "+bitArroba);
+console.log("bitDouberBar : "+bitDouberBar);
+console.log("bitDoubleGuion : "+bitDoubleGuion);
+console.log("bitLength : "+bitLength);
+console.log("bitDots : "+bitDots);
+console.log("bitTinyUrl : "+bitTinyUrl);
+console.log("bitHttps : "+bitHttps);
+console.log("bitAge : "+bitAge);
+console.log("bitPort : "+bitPort);
+console.log("bitPageRank : "+bitPageRank);
+console.log("bitIpAddress : "+bitIpAddress);
+console.log("bitAnchor : "+bitAnchor);
+console.log("bitTagUrl : "+bitTagUrl);
+
+
+
+
+
+
+post_json();
+
+
+function post_json(){
+	xhr = new XMLHttpRequest();
+	const url = 'http://localhost:5000/postjson';
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json");
+
+	xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            var result = xhr.responseText;
+
+            if(result != 1){
+            	alert("Might be a phishing website!!");
+            }
+        }
+    }
+	var data = JSON.stringify(json_data);
+	xhr.send(data);
+}
 
 function percentageOfUrlInTags(){
 	var metaTags = document.getElementsByTagName('Meta');
@@ -133,32 +211,6 @@ function percentageOfUrlInAnchorTag(){
 
 }
 
-/*faviconFromExternDomain();
-
-function faviconFromExternDomain(){
-	var l = document.getElementsByTagName('link');
-	var hostName = window.location.hostname;
-	var isExternal = 0;
-	for(var i = 0; i < l.length; ++i){
-
-		//Need to sheck if they are using icon or shortcut icon for the favicon. 
-		//Then check if it is from a different domain
-		//if(((l[i].rel) == "icon") || (l[i].rel) == "shortcut icon"){
-		if( l[i].type == "image/png" ){
-		if(extractHostname(l[i].href) != hostName){
-			alert(l[i].href);
-			isExternal = 1;
-		}
-		else{
-			isExternal = 0;
-		}
-	}
-} 
-	//}
-	return isExternal;
-}*/
-
-alert("Hola");
 
 function extractHostname(url) {
     var hostname;
@@ -193,7 +245,7 @@ function is_url(str)
         }
 }
 
-
+/*
 getRequestUrl();
 
 function getRequestUrl(){
@@ -217,7 +269,7 @@ function getRequestUrl(){
     
     chrome.webRequest.onBeforeRequest.addListener(callback, filter);
 }
-
+*/
 
 function getWebsiteRank(){
 	var hostname;
@@ -257,7 +309,6 @@ function getDomainAge(){
 	return age[0].childNodes[0].nodeValue;
 }
 
-IsPhysingWebSite();
 
 function badPort(){
 	var result = -1;
@@ -267,21 +318,12 @@ function badPort(){
 	goodPorts.forEach(function(element) {
 	  if(element == port) result = 0;
 	});
-	if(port == "") result = 0;
+	if(port == "") result = 1;
 	return result;
 }
 
-function IsPhysingWebSite(){
-    if(document.URL == "https://goshipages.com/"){
-    	//getDomainAge();
-       //alert("a"+ window.location.href+ " "+location.port);       
-    }
-}
 
 
-//return a value >=2 if is physhing
-//return a value = 1 if is suspicius
-//return a value < 1 if  is authentic 
 function analyseDots()
 {
 	//i have to get of the www. and the country code (example .uk for United Kingdom)
@@ -297,14 +339,10 @@ function analyseDots()
 }
 
 
-//TODO: fix the regular expression for the hexadecimal ip address.
 function theresIpAddress(){
 	var url = document.URL;
-    //var url = 'hello_dumb/0x9B.0xAA.0x56.0xF5/testing.html';
-	//var url = 'thiscase/doesnt/work';
     var values = url.split("/");
 	var theresIp = false;
-	//0[xX][0-9a-fA-F]+
 	values.forEach(function(element) {
 	  var resultOfdecimalNumbers = element.search("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$");
 	  //Check resultOfHexaDecimalNumbers regular expression, I DID IT BUT BADLY. 
@@ -316,13 +354,3 @@ function theresIpAddress(){
 }
 
 
-/*
-
-function IsPhysingWebSite(){
-    if(document.URL == "https://goshipages.com/"){
-        alert("WARNING: This is a phishing website "+containsIpAddress);       
-    }
-}
-
-IsPhysingWebSite();
-*/
