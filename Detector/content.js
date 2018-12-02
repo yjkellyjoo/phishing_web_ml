@@ -18,7 +18,7 @@ var containsDoubleGuion = document.URL.indexOf("-") > -1;
 var containsTinyUrl = document.URL.indexOf("bit") > -1; //son lo mismo
 var containsBit = document.URL.indexOf("tinyurl") > -1;//son lo mismo
 var containsHttps = document.URL.indexOf("https://") > -1;
-var age = 100; //HERE I SHOULD CALL THE API, I DO NOT DO IT BECOUSE I DONT WANT TO WASTE CALLS
+var age = getDomainAge(); 
 
 
 var bitArroba = 0;
@@ -36,25 +36,25 @@ var bitAnchor = 0;
 var bitTagUrl = 0;
 
 //I set the bits
-(containsArroba) ? bitArroba = -1 : bitArroba = 0  ;
+(containsArroba) ? bitArroba = -1 : bitArroba = 1  ;
 
-(containsDoubleBar) ? bitDouberBar = -1 : bitDouberBar = 0 ;
+(containsDoubleBar) ? bitDouberBar = -1 : bitDouberBar = 1 ;
 
-(containsDoubleGuion) ? bitDoubleGuion = -1 :  bitDoubleGuion = 0;
+(containsDoubleGuion) ? bitDoubleGuion = -1 :  bitDoubleGuion = 1;
 
-(url_length >= 54) ? bitLength = -1 : bitLength = 0;
+(url_length >= 54) ? bitLength = -1 : bitLength = 1;
 
-(analyseDots() > 0) ? bitDots = -1 : bitDots = 0;
+(analyseDots() > 0) ? bitDots = -1 : bitDots = 1;
 
-(containsTinyUrl || containsBit) ? bitTinyUrl = -1 : bitTinyUrl = 0;
+(containsTinyUrl || containsBit) ? bitTinyUrl = -1 : bitTinyUrl = 1;
 
-(!containsHttps) ? bitHttps = -1 : bitHttps = 0;
+(!containsHttps) ? bitHttps = -1 : bitHttps = 1;
 
-(age < 365) ? bitAge = -1 : bitAge = 0;
+(age < 365) ? bitAge = -1 : bitAge = 1;
 
-(getWebsiteRank() < 2) ? bitPageRank = -1 : bitPageRank = 0;
+(getWebsiteRank() < 2) ? bitPageRank = -1 : bitPageRank = 1;
 
-(!theresIpAddress()) ? bitIpAddress = -1 : bitIpAddress = 0;
+(!theresIpAddress()) ? bitIpAddress = -1 : bitIpAddress = 1;
 
 
 percentageOfUrl = percentageOfUrlInAnchorTag();
@@ -74,7 +74,43 @@ else if (urlsInTags >=17 && urlsInTags <=81)
 else 
 	bitTagUrl = -1;
 
+var json_data = {
+	"having_IP_Address":bitIpAddress, 
+	"URL_Length":url_length, 
+	"having_At_Symbol":bitArroba, 
+	"Shortining_Service":bitTinyUrl,
+	"double_slash_redirecting":bitDouberBar, 
+	"Prefix_Suffix":bitDoubleGuion, 
+	"having_Sub_Domain":bitDots, 
+	"HTTPS_token":bitHttps, 
+	"URL_of_Anchor":bitAnchor, 
+	"age_of_domain":bitAge, 
+	"Page_Rank":bitPageRank
+}
 
+
+
+post_json();
+
+
+function post_json(){
+	xhr = new XMLHttpRequest();
+	const url = 'http://localhost:5000/postjson';
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json");
+
+	xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            var result = xhr.responseText;
+
+            if(result != 1){
+            	alert("Might be a phishing website!!");
+            }
+        }
+    }
+	var data = JSON.stringify(json_data);
+	xhr.send(data);
+}
 
 function percentageOfUrlInTags(){
 	var metaTags = document.getElementsByTagName('Meta');
@@ -238,7 +274,7 @@ function badPort(){
 	goodPorts.forEach(function(element) {
 	  if(element == port) result = 0;
 	});
-	if(port == "") result = 0;
+	if(port == "") result = 1;
 	return result;
 }
 
