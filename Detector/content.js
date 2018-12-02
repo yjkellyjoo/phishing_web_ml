@@ -75,8 +75,6 @@ else
 	bitTagUrl = -1;
 
 
-alert(percentageOfUrlInTags());
-
 
 function percentageOfUrlInTags(){
 	var metaTags = document.getElementsByTagName('Meta');
@@ -133,32 +131,6 @@ function percentageOfUrlInAnchorTag(){
 
 }
 
-/*faviconFromExternDomain();
-
-function faviconFromExternDomain(){
-	var l = document.getElementsByTagName('link');
-	var hostName = window.location.hostname;
-	var isExternal = 0;
-	for(var i = 0; i < l.length; ++i){
-
-		//Need to sheck if they are using icon or shortcut icon for the favicon. 
-		//Then check if it is from a different domain
-		//if(((l[i].rel) == "icon") || (l[i].rel) == "shortcut icon"){
-		if( l[i].type == "image/png" ){
-		if(extractHostname(l[i].href) != hostName){
-			alert(l[i].href);
-			isExternal = 1;
-		}
-		else{
-			isExternal = 0;
-		}
-	}
-} 
-	//}
-	return isExternal;
-}*/
-
-alert("Hola");
 
 function extractHostname(url) {
     var hostname;
@@ -193,7 +165,7 @@ function is_url(str)
         }
 }
 
-
+/*
 getRequestUrl();
 
 function getRequestUrl(){
@@ -217,7 +189,7 @@ function getRequestUrl(){
     
     chrome.webRequest.onBeforeRequest.addListener(callback, filter);
 }
-
+*/
 
 function getWebsiteRank(){
 	var hostname;
@@ -257,7 +229,6 @@ function getDomainAge(){
 	return age[0].childNodes[0].nodeValue;
 }
 
-IsPhysingWebSite();
 
 function badPort(){
 	var result = -1;
@@ -269,13 +240,6 @@ function badPort(){
 	});
 	if(port == "") result = 0;
 	return result;
-}
-
-function IsPhysingWebSite(){
-    if(document.URL == "https://goshipages.com/"){
-    	//getDomainAge();
-       //alert("a"+ window.location.href+ " "+location.port);       
-    }
 }
 
 
@@ -297,14 +261,10 @@ function analyseDots()
 }
 
 
-//TODO: fix the regular expression for the hexadecimal ip address.
 function theresIpAddress(){
 	var url = document.URL;
-    //var url = 'hello_dumb/0x9B.0xAA.0x56.0xF5/testing.html';
-	//var url = 'thiscase/doesnt/work';
     var values = url.split("/");
 	var theresIp = false;
-	//0[xX][0-9a-fA-F]+
 	values.forEach(function(element) {
 	  var resultOfdecimalNumbers = element.search("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$");
 	  //Check resultOfHexaDecimalNumbers regular expression, I DID IT BUT BADLY. 
@@ -316,13 +276,3 @@ function theresIpAddress(){
 }
 
 
-/*
-
-function IsPhysingWebSite(){
-    if(document.URL == "https://goshipages.com/"){
-        alert("WARNING: This is a phishing website "+containsIpAddress);       
-    }
-}
-
-IsPhysingWebSite();
-*/
