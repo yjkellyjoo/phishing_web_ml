@@ -42,9 +42,25 @@ var bitTagUrl = 0;
 
 (containsDoubleGuion) ? bitDoubleGuion = -1 :  bitDoubleGuion = 1;
 
-(url_length >= 54) ? bitLength = -1 : bitLength = 1;
+if(url_length >= 54 && url_length <= 75)
+	bitLength = 0;
+else if(url_length < 54)
+	bitLength = 1;
+else
+	bitLength = -1;
 
-(analyseDots() > 0) ? bitDots = -1 : bitDots = 1;
+//(analyseDots() > 0) ? bitDots = -1 : bitDots = 1;
+//return a value >=2 if is physhing
+//return a value = 1 if is suspicius
+//return a value < 1 if  is authentic 
+
+amountOfDots = analyseDots()
+if(amountOfDots >= 2)
+	bitDots = -1;
+else if(amountOfDots = 1)
+	bitDots = 0;
+else
+	bitDots = 1;
 
 (containsTinyUrl || containsBit) ? bitTinyUrl = -1 : bitTinyUrl = 1;
 
@@ -73,6 +89,7 @@ else if (urlsInTags >=17 && urlsInTags <=81)
 	bitTagUrl = 0;
 else 
 	bitTagUrl = -1;
+
 
 var json_data = {
 	"having_IP_Address":bitIpAddress, 
@@ -279,9 +296,7 @@ function badPort(){
 }
 
 
-//return a value >=2 if is physhing
-//return a value = 1 if is suspicius
-//return a value < 1 if  is authentic 
+
 function analyseDots()
 {
 	//i have to get of the www. and the country code (example .uk for United Kingdom)
