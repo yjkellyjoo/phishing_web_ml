@@ -149,7 +149,7 @@ post_json();
 
 function post_json(){
 	xhr = new XMLHttpRequest();
-	const url = '13.125.127.225:5000/postjson';
+	const url = '54.180.8.220:5000/postjson';
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json");
 
@@ -304,7 +304,7 @@ function getWebsiteRank(){
 function httpGet(theUrl)
 {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.open( "GET", theUrl, true ); // false for synchronous request
     xmlHttp.send( null );
     return xmlHttp.responseText;
 }
