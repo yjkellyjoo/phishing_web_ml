@@ -27,6 +27,7 @@ console.log(is_url("www.example.com"));
 var url_length = document.URL.length;
 
 var containsArroba = document.URL.indexOf("@") > -1;
+var containsDoubleBar = document.URL.indexOf("//") > -1;
 var containsDoubleGuion = document.URL.indexOf("-") > -1;
 var containsTinyUrl = document.URL.indexOf("bit") > -1; //son lo mismo
 var containsBit = document.URL.indexOf("tinyurl") > -1;//son lo mismo
@@ -48,20 +49,6 @@ var bitIpAddress = 0;
 var bitAnchor = 0;
 var bitTagUrl = 0;
 
-
-console.log("bitArroba: "+bitArroba);
-console.log("bitDouberBar: "+bitDouberBar);
-console.log("bitDoubleGuion: "+bitDoubleGuion);
-console.log("bitLength: "+bitLength);
-console.log("bitDots: "+bitDots);
-console.log("bitTinyUrl: "+bitTinyUrl);
-console.log("bitHttps: "+bitHttps);
-console.log("bitAge: "+bitAge);
-console.log("bitPort: "+bitPort);
-console.log("bitPageRank: "+bitPageRank);
-console.log("bitIpAddress: "+bitIpAddress);
-console.log("bitAnchor: "+bitAnchor);
-console.log("bitTagUrl: "+bitTagUrl);
 
 //I set the bits
 (containsArroba) ? bitArroba = -1 : bitArroba = 1  ;
@@ -142,6 +129,19 @@ var json_data = {
 	"Page_Rank":bitPageRank
 }
 
+console.log("bitArroba: "+bitArroba);
+console.log("bitDouberBar: "+bitDouberBar);
+console.log("bitDoubleGuion: "+bitDoubleGuion);
+console.log("bitLength: "+bitLength);
+console.log("bitDots: "+bitDots);
+console.log("bitTinyUrl: "+bitTinyUrl);
+console.log("bitHttps: "+bitHttps);
+console.log("bitAge: "+bitAge);
+console.log("bitPort: "+bitPort);
+console.log("bitPageRank: "+bitPageRank);
+console.log("bitIpAddress: "+bitIpAddress);
+console.log("bitAnchor: "+bitAnchor);
+console.log("bitTagUrl: "+bitTagUrl);
 
 
 post_json();
@@ -149,7 +149,7 @@ post_json();
 
 function post_json(){
 	xhr = new XMLHttpRequest();
-	const url = 'http://localhost:5000/postjson';
+	const url = '13.125.127.225:5000/postjson';
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json");
 
