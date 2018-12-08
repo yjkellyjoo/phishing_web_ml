@@ -1,24 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// content.js
-
-//real: 1
-//suspicus/phishing : -1
-
-//var containsIpAddress = ThereIsIpAddress("document.URL");
- 
 console.log(is_url("http://www.example.com"));
 console.log(is_url("https://www.example.com"));
 console.log(is_url("www.example.com"));
@@ -27,11 +7,11 @@ console.log(is_url("www.example.com"));
 var url_length = document.URL.length;
 
 var containsArroba = document.URL.indexOf("@") > -1;
-var containsDoubleGuion = document.URL.indexOf("-") > -1;
+var containsDoubleGuion = containsBar();
 var containsTinyUrl = document.URL.indexOf("bit") > -1; //son lo mismo
 var containsBit = document.URL.indexOf("tinyurl") > -1;//son lo mismo
 var containsHttps = document.URL.indexOf("https://") > -1;
-var age = getDomainAge(); 
+var age = 11;///getDomainAge(); 
 
 
 var bitArroba = 0;
@@ -49,24 +29,12 @@ var bitAnchor = 0;
 var bitTagUrl = 0;
 
 
-console.log("bitArroba: "+bitArroba);
-console.log("bitDouberBar: "+bitDouberBar);
-console.log("bitDoubleGuion: "+bitDoubleGuion);
-console.log("bitLength: "+bitLength);
-console.log("bitDots: "+bitDots);
-console.log("bitTinyUrl: "+bitTinyUrl);
-console.log("bitHttps: "+bitHttps);
-console.log("bitAge: "+bitAge);
-console.log("bitPort: "+bitPort);
-console.log("bitPageRank: "+bitPageRank);
-console.log("bitIpAddress: "+bitIpAddress);
-console.log("bitAnchor: "+bitAnchor);
-console.log("bitTagUrl: "+bitTagUrl);
 
 //I set the bits
-(containsArroba) ? bitArroba = -1 : bitArroba = 1  ;
-
-(containsDoubleBar) ? bitDouberBar = -1 : bitDouberBar = 1 ;
+if (containsArroba) 
+	bitArroba = -1;
+else 
+	bitArroba = 1;
 
 (containsDoubleGuion) ? bitDoubleGuion = -1 :  bitDoubleGuion = 1;
 
@@ -83,12 +51,12 @@ else
 //return a value < 1 if  is authentic 
 
 amountOfDots = analyseDots()
-if(amountOfDots >= 2)
-	bitDots = -1;
-else if(amountOfDots = 1)
+if(amountOfDots == 2)
 	bitDots = 0;
-else
+else if(amountOfDots == 1)
 	bitDots = 1;
+else
+	bitDots = -1;
 
 (containsTinyUrl || containsBit) ? bitTinyUrl = -1 : bitTinyUrl = 1;
 
@@ -98,8 +66,9 @@ else
 
 (getWebsiteRank() < 2) ? bitPageRank = -1 : bitPageRank = 1;
 
-(!theresIpAddress()) ? bitIpAddress = -1 : bitIpAddress = 1;
+(theresIpAddress()) ? bitIpAddress = -1 : bitIpAddress = 1;
 
+(hasDoubleBar()) ? bitDouberBar = -1 : bitDouberBar = 1;
 
 percentageOfUrl = percentageOfUrlInAnchorTag();
 if(percentageOfUrl < 31)
@@ -120,13 +89,38 @@ else
 
 
 
-if(document.URL.indexOf("https://")> -1)
-	bitDouberBar = 1;
-else if (document.URL.indexOf("//")> -1)
-	bitDouberBar = -1;
-else 
-	bitDouberBar = 1;
 
+
+console.log("bitArroba: "+bitArroba);
+console.log("bitDouberBar: "+bitDouberBar);
+console.log("bitDoubleGuion: "+bitDoubleGuion);
+console.log("bitLength: "+bitLength);
+console.log("bitDots: "+bitDots);
+console.log("bitTinyUrl: "+bitTinyUrl);
+console.log("bitHttps: "+bitHttps);
+console.log("bitAge: "+bitAge);
+console.log("bitPort: "+bitPort);
+console.log("bitPageRank: "+bitPageRank);
+console.log("bitIpAddress: "+bitIpAddress);
+console.log("bitAnchor: "+bitAnchor);
+console.log("bitTagUrl: "+bitTagUrl);
+
+
+function hasDoubleBar(){
+	var urlWithoutHttpsArray = document.URL.toString().split("https://");
+	var hastDoubleBar = false;
+	if(urlWithoutHttpsArray.length > 0){
+		hasDoubleBar = urlWithoutHttpsArray[0].indexOf("//") > -1;
+	}else{
+		urlWithoutHttpsArray = document.URL.toString().split("http://");
+		hasDoubleBar = urlWithoutHttpsArray[0].indexOf("//") > -1;
+	}
+	return hasDoubleBar;
+}
+
+function containsBar(){
+	return window.location.hostname.indexOf("-") > -1;
+}
 
 var json_data = {
 	"having_IP_Address":bitIpAddress, 
@@ -143,7 +137,7 @@ var json_data = {
 }
 
 
-
+/*
 post_json();
 
 
@@ -165,7 +159,7 @@ function post_json(){
 	var data = JSON.stringify(json_data);
 	xhr.send(data);
 }
-
+*/	
 function percentageOfUrlInTags(){
 	var metaTags = document.getElementsByTagName('Meta');
 	var scriptTags = document.getElementsByTagName('Script');
@@ -337,13 +331,27 @@ function analyseDots()
 {
 	//i have to get of the www. and the country code (example .uk for United Kingdom)
 	//then return the amount of dots left, the result is explained above.
-	var amountOfDots = -1;
+	var hostname = (new URL(document.URL)).hostname.toString();
+	var amountOfDots = 0;
+	var resultArr;
 
-	if(document.URL.indexOf("www.") > -1)
-		amountOfDots = document.URL.split(".").length - 3;
+
+	var urlWithoutHttpsArray = hostname.split("https://");
+	if(urlWithoutHttpsArray.length == 0){
+		urlWithoutHttpsArray = document.URL.toString().split("http://");
+	}
+	console.log("largo array: "+urlWithoutHttpsArray.length);
+	var resultArr = urlWithoutHttpsArray[0].split("www.");
+	var url;
+	if(resultArr.length == 2)
+		url = resultArr[1];
 	else
-		amountOfDots = document.URL.split(".").length - 2;
-
+		url = resultArr[0];
+	console.log("url : "+url);
+	for(var i = 0; i < url.length; i++){
+		if(url[i] == '.')
+			amountOfDots++;
+	}
 	return amountOfDots;
 }
 
