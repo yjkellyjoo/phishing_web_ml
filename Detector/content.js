@@ -137,13 +137,13 @@ var json_data = {
 }
 
 
-/*
+
 post_json();
 
 
 function post_json(){
 	xhr = new XMLHttpRequest();
-	const url = 'http://localhost:5000/postjson';
+	const url = 'http://54.180.8.220:5000/postjson';
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json");
 
@@ -159,7 +159,7 @@ function post_json(){
 	var data = JSON.stringify(json_data);
 	xhr.send(data);
 }
-*/	
+
 function percentageOfUrlInTags(){
 	var metaTags = document.getElementsByTagName('Meta');
 	var scriptTags = document.getElementsByTagName('Script');
