@@ -124,7 +124,7 @@ function containsBar(){
 
 var json_data = {
 	"having_IP_Address":bitIpAddress, 
-	"URL_Length":url_length, 
+	"URL_Length":bitLength, 
 	"having_At_Symbol":bitArroba, 
 	"Shortining_Service":bitTinyUrl,
 	"double_slash_redirecting":bitDouberBar, 
@@ -137,13 +137,11 @@ var json_data = {
 }
 
 
-
 post_json();
-
 
 function post_json(){
 	xhr = new XMLHttpRequest();
-	const url = 'http://54.180.8.220:5000/postjson';
+	const url = 'http://localhost:5000/postjson';
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json");
 
@@ -367,5 +365,6 @@ function theresIpAddress(){
 
 	  if(resultOfdecimalNumbers > -1 || resultOfHexaDecimalNumbers > -1) theresIp = true;
 	});
-	
+
+	return theresIp;
 }
