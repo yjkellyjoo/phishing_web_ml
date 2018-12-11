@@ -122,6 +122,7 @@ function containsBar(){
 	return window.location.hostname.indexOf("-") > -1;
 }
 
+//make json variable with all the attribute values retrieved. 
 var json_data = {
 	"having_IP_Address":bitIpAddress, 
 	"URL_Length":bitLength, 
@@ -136,8 +137,9 @@ var json_data = {
 	"Page_Rank":bitPageRank
 }
 
-
+//post the json data to python server
 post_json();
+
 
 function post_json(){
 	xhr = new XMLHttpRequest();
@@ -145,6 +147,7 @@ function post_json(){
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json");
 
+	//get the result of the post request, decide if the website is phishing or not, and make a pop-up message if it is. 
 	xhr.onreadystatechange = function () {
         if (xhr.readyState == XMLHttpRequest.DONE) {
             var result = xhr.responseText;
@@ -154,6 +157,8 @@ function post_json(){
             }
         }
     }
+
+    //send json data to python server
 	var data = JSON.stringify(json_data);
 	xhr.send(data);
 }
