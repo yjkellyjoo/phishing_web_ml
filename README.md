@@ -8,5 +8,5 @@ A Phishing Website Detection Plugin
 3. The plugin alerts the USER of its findings allowing the user to decide themselves if they would like to proceed.
 
 ## File description
-Phishing_Website_Detector.ipynb : makes a phishing website detector using machine learning
-model.joblib : is the final model(detector)
+Phishing_Website_Detector.ipynb : makes a phishing website detector using machine learning  
+model.joblib : is the final model(detector)  
