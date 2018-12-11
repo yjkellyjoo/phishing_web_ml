@@ -1,6 +1,6 @@
 # phishing_web_ml
 
-A PHISHING-WEBSITE DETENCTION PLUGIN
+A Phishing Website Detection Plugin
 
 ## How the plugin works
 1. User enters a URL they would like to visit into the address bar.
