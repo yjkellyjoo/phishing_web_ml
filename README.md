@@ -1,5 +1,12 @@
 # phishing_web_ml
 
+A PHISHING-WEBSITE DETENCTION PLUGIN
+
+## How the plugin works
+1. User enters a URL they would like to visit into the address bar.
+2. Our plugin will run automatically and decide if the URL entered is a suspicious/phishing website or not.
+3. The plugin alerts the USER of its findings allowing the user to decide themselves if they would like to proceed.
+
 ## Features by Importance
 1. SSLfinal_State
 2. **URL_of_Anchor**
