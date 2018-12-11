@@ -14,6 +14,15 @@ json_io.py : is the python server that has to be run locally for our extension t
 
 
 ## Setups needed to make this plugin work
-1. Run python server
-
-2. Load our Phishing Website Detection extension to Chrome
+### 1. Run python server
+  a. Install python3 (https://www.python.org/downloads/) if not already installed.
+     Creating a virtual environment and running the server on it is recommended (https://docs.python.org/3/tutorial/venv.html). 
+  b. The following packages are required: sklearn, joblib, and flask. Go ahead and download them with pip. 
+     If you do not know how to download python packages, refer to https://packaging.python.org/tutorials/installing-packages/.
+  c. Make sure you have json_io.py and model.joblib in one directory. Run json_io.py by typing this in your terminal/cmd
+  ```
+  python json_io.py
+  ```
+  d. Voilà! You have the local server up and running. If you want to stop it, do `ctrl+c`. 
+  
+### 2. Load our Phishing Website Detection extension to Chrome
