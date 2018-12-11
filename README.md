@@ -10,3 +10,10 @@ A Phishing Website Detection Plugin
 ## File description
 Phishing_Website_Detector.ipynb : makes a phishing website detector using machine learning  
 model.joblib : is the final model(detector)  
+json_io.py : is the python server that has to be run locally for our extension to work. 
+
+
+## Setups needed to make this plugin work
+1. Run python server
+
+2. Load our Phishing Website Detection extension to Chrome
