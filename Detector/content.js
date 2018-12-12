@@ -14,27 +14,27 @@ var containsHttps = document.URL.indexOf("https://") > -1;
 var age = 11;///getDomainAge(); 
 
 
-var bitArroba = 0;
+var bitArroba = 0; //1 = phishing
 var bitDouberBar = 0;
 var bitDoubleGuion = 0;
 var bitLength = 0;
-var bitDots = 0;
-var bitTinyUrl = 0;
+var bitDots = 0; //1 = phishing
+var bitTinyUrl = 0; //1 = phishing
 var bitHttps = 0;
-var bitAge = 0;
-var bitPort = badPort();
+var bitAge = 0; //1 = phishing
+var bitPort = badPort(); //1 = phishing
 var bitPageRank = 0;
 var bitIpAddress = 0;
-var bitAnchor = 0;
+var bitAnchor = 0; //1 = phishing
 var bitTagUrl = 0;
 
 
 
 //I set the bits
 if (containsArroba) 
-	bitArroba = -1;
-else 
 	bitArroba = 1;
+else 
+	bitArroba = -1;
 
 (containsDoubleGuion) ? bitDoubleGuion = -1 :  bitDoubleGuion = 1;
 
@@ -54,15 +54,15 @@ amountOfDots = analyseDots()
 if(amountOfDots == 2)
 	bitDots = 0;
 else if(amountOfDots == 1)
-	bitDots = 1;
-else
 	bitDots = -1;
+else
+	bitDots = 1;
 
-(containsTinyUrl || containsBit) ? bitTinyUrl = -1 : bitTinyUrl = 1;
+(containsTinyUrl || containsBit) ? bitTinyUrl = 1 : bitTinyUrl = -1;
 
 (!containsHttps) ? bitHttps = -1 : bitHttps = 1;
 
-(age < 365) ? bitAge = -1 : bitAge = 1;
+(age < 365) ? bitAge = 1 : bitAge = -1;
 
 (getWebsiteRank() < 2) ? bitPageRank = -1 : bitPageRank = 1;
 
@@ -72,11 +72,11 @@ else
 
 percentageOfUrl = percentageOfUrlInAnchorTag();
 if(percentageOfUrl < 31)
-	bitAnchor = 1;
+	bitAnchor = -1;
 else if(percentageOfUrl >= 31 && percentageOfUrl <=67)
 	bitAnchor = 0;
 else
-	bitAnchor = -1;
+	bitAnchor = 1;
 
 
 var urlsInTags = percentageOfUrlInTags();
@@ -324,14 +324,14 @@ function getDomainAge(){
 
 
 function badPort(){
-	var result = -1;
+	var result = 1;
 	var port = location.port;
 	var goodPorts = ["21", "22", "23" ,"80","443","445","1433","1521","3306", "3389"];
 
 	goodPorts.forEach(function(element) {
 	  if(element == port) result = 0;
 	});
-	if(port == "") result = 1;
+	if(port == "") result = -1;
 	return result;
 }
 
