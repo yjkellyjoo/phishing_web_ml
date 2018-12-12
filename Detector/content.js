@@ -207,7 +207,14 @@ function percentageOfUrlInAnchorTag(){
 
 	for (var idx= 0; idx < a.length; ++idx){
 	    if(is_url(a[idx].href)){
-	    	if(extractHostname(a[idx].href) != hostName){
+            var anchor = extractHostname(a[idx].href)
+            anchor = anchor.split(".")
+            anchor = anchor[anchor.length-2] + "." + anchor[anchor.length-1]
+            
+            hostName = hostName.split(".")
+            hostName = hostName[hostName.length-2] + "." + hostName[hostName.length-1]
+            
+	    	if(anchor != hostName){
 	    		urlCont++;
 	    	}else{
 	    		noUrlCont++;
