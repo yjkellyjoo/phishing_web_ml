@@ -1,8 +1,8 @@
-
+/*
 console.log(is_url("http://www.example.com"));
 console.log(is_url("https://www.example.com"));
 console.log(is_url("www.example.com"));
-
+*/
 
 var url_length = document.URL.length;
 
@@ -12,6 +12,7 @@ var containsTinyUrl = document.URL.indexOf("bit") > -1; //son lo mismo
 var containsBit = document.URL.indexOf("tinyurl") > -1;//son lo mismo
 var containsHttps = document.URL.indexOf("https://") > -1;
 var age = 11;///getDomainAge(); 
+var urlsInTags = percentageOfUrlInTags();
 
 
 var bitArroba = 0; //1 = phishing
@@ -31,13 +32,17 @@ var bitTagUrl = 0;
 
 
 //I set the bits
+
+//@ symbol
 if (containsArroba) 
 	bitArroba = 1;
 else 
 	bitArroba = -1;
 
+//'-' in url
 (containsDoubleGuion) ? bitDoubleGuion = -1 :  bitDoubleGuion = 1;
 
+//url length too long
 if(url_length >= 54 && url_length <= 75)
 	bitLength = 0;
 else if(url_length < 54)
@@ -45,11 +50,7 @@ else if(url_length < 54)
 else
 	bitLength = -1;
 
-//(analyseDots() > 0) ? bitDots = -1 : bitDots = 1;
-//return a value >=2 if is physhing
-//return a value = 1 if is suspicius
-//return a value < 1 if  is authentic 
-
+//number of dots in url
 amountOfDots = analyseDots()
 if(amountOfDots == 2)
 	bitDots = 0;
@@ -58,11 +59,12 @@ else if(amountOfDots == 1)
 else
 	bitDots = 1;
 
+//used url shortening service
 (containsTinyUrl || containsBit) ? bitTinyUrl = 1 : bitTinyUrl = -1;
 
 (!containsHttps) ? bitHttps = -1 : bitHttps = 1;
 
-(age < 365) ? bitAge = 1 : bitAge = -1;
+(age < 182) ? bitAge = 1 : bitAge = -1;
 
 (getWebsiteRank() < 2) ? bitPageRank = -1 : bitPageRank = 1;
 
@@ -79,7 +81,6 @@ else
 	bitAnchor = 1;
 
 
-var urlsInTags = percentageOfUrlInTags();
 if(urlsInTags < 17)
 	bitTagUrl = 1;
 else if (urlsInTags >=17 && urlsInTags <=81)
@@ -106,22 +107,6 @@ console.log("bitAnchor: "+bitAnchor);
 console.log("bitTagUrl: "+bitTagUrl);
 
 
-function hasDoubleBar(){
-	var urlWithoutHttpsArray = document.URL.toString().split("https://");
-	var hastDoubleBar = false;
-	if(urlWithoutHttpsArray.length > 0){
-		hasDoubleBar = urlWithoutHttpsArray[0].indexOf("//") > -1;
-	}else{
-		urlWithoutHttpsArray = document.URL.toString().split("http://");
-		hasDoubleBar = urlWithoutHttpsArray[0].indexOf("//") > -1;
-	}
-	return hasDoubleBar;
-}
-
-function containsBar(){
-	return window.location.hostname.indexOf("-") > -1;
-}
-
 //make json variable with all the attribute values retrieved. 
 var json_data = {
 	"having_IP_Address":bitIpAddress, 
@@ -139,6 +124,25 @@ var json_data = {
 
 //post the json data to python server
 post_json();
+
+
+
+function hasDoubleBar(){
+	var urlWithoutHttpsArray = document.URL.toString().split("https://");
+	var hastDoubleBar = false;
+	if(urlWithoutHttpsArray.length > 0){
+		hasDoubleBar = urlWithoutHttpsArray[0].indexOf("//") > -1;
+	}else{
+		urlWithoutHttpsArray = document.URL.toString().split("http://");
+		hasDoubleBar = urlWithoutHttpsArray[0].indexOf("//") > -1;
+	}
+	return hasDoubleBar;
+}
+
+
+function containsBar(){
+	return window.location.hostname.indexOf("-") > -1;
+}
 
 
 function post_json(){
@@ -162,6 +166,7 @@ function post_json(){
 	var data = JSON.stringify(json_data);
 	xhr.send(data);
 }
+
 
 function percentageOfUrlInTags(){
 	var metaTags = document.getElementsByTagName('Meta');
@@ -196,7 +201,6 @@ function percentageOfUrlInTags(){
 	return (urlCont*100) / (noUrlCont+urlCont);	
 
 }
-
 
 
 function percentageOfUrlInAnchorTag(){
@@ -259,6 +263,7 @@ function is_url(str)
         }
 }
 
+
 /*
 getRequestUrl();
 function getRequestUrl(){
@@ -313,6 +318,7 @@ function httpGet(theUrl)
     return xmlHttp.responseText;
 }
 
+
 function getDomainAge(){
 	var hostname = (new URL(document.URL)).hostname.toString();
 	var result = httpGet("https://www.whoisxmlapi.com/whoisserver/WhoisService?apiKey=at_r102dYXjtciL9KgO9Oic7D2aKhQpq&domainName="+hostname);
@@ -336,7 +342,6 @@ function badPort(){
 }
 
 
-
 function analyseDots()
 {
 	//i have to get of the www. and the country code (example .uk for United Kingdom)
@@ -344,15 +349,19 @@ function analyseDots()
 	var hostname = (new URL(document.URL)).hostname.toString();
 	var amountOfDots = 0;
 	var resultArr;
-
-
+	var url;
 	var urlWithoutHttpsArray = hostname.split("https://");
+
+
 	if(urlWithoutHttpsArray.length == 0){
 		urlWithoutHttpsArray = document.URL.toString().split("http://");
 	}
 	console.log("largo array: "+urlWithoutHttpsArray.length);
-	var resultArr = urlWithoutHttpsArray[0].split("www.");
-	var url;
+	console.log("urlWithoutHttpsArray : "+urlWithoutHttpsArray);
+
+	resultArr = urlWithoutHttpsArray[0].split("www.");
+	console.log("resultArr : "+resultArr);
+
 	if(resultArr.length == 2)
 		url = resultArr[1];
 	else
