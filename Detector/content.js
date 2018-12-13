@@ -11,7 +11,7 @@ var containsDoubleGuion = containsBar();
 var containsTinyUrl = document.URL.indexOf("bit") > -1; //son lo mismo
 var containsBit = document.URL.indexOf("tinyurl") > -1;//son lo mismo
 var containsHttps = document.URL.indexOf("https://") > -1;
-var age = 11;///getDomainAge(); 
+var age = getDomainAge();///getDomainAge(); 
 var urlsInTags = percentageOfUrlInTags();
 
 
@@ -350,9 +350,8 @@ function analyseDots()
 	var amountOfDots = 0;
 	var resultArr;
 	var url;
+
 	var urlWithoutHttpsArray = hostname.split("https://");
-
-
 	if(urlWithoutHttpsArray.length == 0){
 		urlWithoutHttpsArray = document.URL.toString().split("http://");
 	}
